@@ -28,7 +28,7 @@ export default function Page() {
           </Link>
         </div>
         <div className="mt-52 flex items-center justify-center p-6 md:w-3/6 md:px-28 md:py-12">
-          <Image
+          {/* <Image
             src="/hero-desktop.png"
             width={1000}
             height={760}
@@ -41,7 +41,7 @@ export default function Page() {
             height={620}
             className="block md:hidden"
             alt="Screenshot of the dashboard project showing mobile version"
-          />
+          /> */}
         </div>
       </div>
     </main>
