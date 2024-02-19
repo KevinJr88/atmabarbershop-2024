@@ -4,14 +4,19 @@ import Link from 'next/link';
 
 export default function Page() {
   return (
-    <main className="relative min-h-screen flex-col p-6">
-      <div className="margin-left absolute mt-4 h-20 shrink-0 rounded-lg bg-blue-500 p-4 md:h-52 md:w-3/6">
-        <div className="relative flex items-end justify-end">
+    <main className="relative min-h-screen flex-col p-6 md:flex-row">
+      <div className="h-30 rounded-lg bg-blue-500 p-4 md:h-44 md:w-auto">
+        <div className="flex justify-center text-white">
+          <p className="text-2xl md:text-center md:text-4xl">
+            SIWEB ITU MUDAH DAN ASIK
+          </p>
+        </div>
+        <div className="relative mt-10 flex justify-center">
           <AcmeLogo />
         </div>
       </div>
       <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
-        <div className="flex flex-col justify-center gap-6 rounded-lg bg-gray-50 px-6 py-10 md:w-2/5 md:px-20">
+        <div className="flex flex-col justify-center gap-6 rounded-lg bg-gray-200 px-6 py-10 md:w-2/5 md:px-20">
           <div className="h-0 w-0 border-b-[30px] border-l-[20px] border-r-[20px] border-b-black border-l-transparent border-r-transparent" />
           <p className={`text-xl text-gray-800 md:text-3xl md:leading-normal`}>
             <strong>Welcome to Acme.</strong> This is the example for the{' '}
@@ -27,21 +32,13 @@ export default function Page() {
             <span>Log in</span> <ArrowRightIcon className="w-5 md:w-6" />
           </Link>
         </div>
-        <div className="mt-52 flex items-center justify-center p-6 md:w-3/6 md:px-28 md:py-12">
-          {/* <Image
-            src="/hero-desktop.png"
-            width={1000}
-            height={760}
-            className="hidden md:block"
-            alt="Screenshots of the dashboard project showing desktop version"
-          />
-          <Image
-            src="/hero-mobile.png"
-            width={560}
-            height={620}
-            className="block md:hidden"
-            alt="Screenshot of the dashboard project showing mobile version"
-          /> */}
+        <div className="rounded-lg bg-emerald-300 p-4 md:h-auto md:w-3/5">
+          <p>Nama&emsp;: Chandra Wijaya Kusuma</p>
+          <p>NPM&emsp;: ********</p>
+          <p>Kelas&emsp;: *</p>
+          <br />
+          <p>Harapan untuk Matkul Siweb</p>
+          <p>Semoga (....)</p>
         </div>
       </div>
     </main>
