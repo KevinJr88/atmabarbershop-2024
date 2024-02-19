@@ -5,18 +5,18 @@ import { PowerIcon } from '@heroicons/react/24/outline';
 
 export default function SideNav() {
   return (
-    <div className="flex px-3 py-4 md:px-2">
+    <div className="flex h-auto px-3 py-4 md:px-2">
       <Link
         className="h-15 md:h-15 flex w-56 justify-center rounded-md bg-blue-600 p-4"
         href="/"
       >
-        <div className="w-32 text-white md:w-40">
+        <div className="relative flex w-32 justify-center text-white md:w-auto">
           <AcmeLogo />
         </div>
       </Link>
-      <div className="flex grow items-center justify-center space-x-2 md:flex-row ">
+      <div className="ml-5 flex items-center space-x-4 md:ml-5">
         <NavLinks />
-        <form
+{/*         <form
           action={async () => {
             'use server';
             await signOut();
@@ -26,7 +26,7 @@ export default function SideNav() {
             <PowerIcon className="w-6" />
             <div className="hidden md:block">Sign Out</div>
           </button>
-        </form>
+        </form> */}
       </div>
     </div>
   );
