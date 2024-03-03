@@ -1,8 +1,14 @@
 
 
+
+import { kanit, anton } from '@/app/ui/fonts';
+
 import Image from 'next/image';
-import { kanit, anton} from '@/app/ui/fonts';
-import { UserIcon } from '@heroicons/react/24/outline';
+
+
+import Link from 'next/link';
+import { UserIcon, ArrowRightCircleIcon } from '@heroicons/react/24/outline';
+
 
 export default function Page() {
     return (
@@ -39,9 +45,16 @@ export default function Page() {
             </nav>
 
             <div className='my-[200px] mx-[5%] absolute z-1'>
-                <h1  className={`${kanit.className} antialiased text-white text-[20px]`}> NPM Lengkap - Nama Lengkap</h1>
-                <h1  className={`${anton.className} antialiased text-white text-[60px]`}> Our Barbershop </h1>
-                <h1  className={`${anton.className} antialiased text-white text-[60px]`}> Admin Dashboard</h1>
+                <h1 className={`${kanit.className} antialiased text-white text-[20px]`}> NPM Lengkap - Nama Lengkap</h1>
+                <h1 className={`${anton.className} antialiased text-white text-[60px]`}> Our Barbershop </h1>
+                <h1 className={`${anton.className} antialiased text-white text-[60px]`}> Admin Dashboard</h1>
+                <Link
+                    href='/dashboard'
+                >
+                    <h1 className={`${kanit.className} antialiased flex text-white text-[20px] hover:text-teal-500`}> Go to Dashboard
+                        <ArrowRightCircleIcon className='w-6 mx-2'/>
+                    </h1>
+                </Link>
             </div>
         </main>
     );
