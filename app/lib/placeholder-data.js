@@ -54,9 +54,9 @@ const customers = [
   },
   {
     id: '126eed9c-c90c-4ef6-a4a8-fcf7408d3c66',
-    name: 'Emil Kowalski',
-    email: 'emil@kowalski.com',
-    image_url: '/customers/emil-kowalski.png',
+    name: 'Chandra',
+    email: '211711038@students.uajy.ac.id',
+    image_url: '/customers/chandra.png',
   },
   {
     id: 'CC27C14A-0ACF-4F4A-A6C9-D45682C144B9',
@@ -180,9 +180,19 @@ const revenue = [
   { month: 'Dec', revenue: 4800 },
 ];
 
+const reservations = [
+  {
+    customer_id: customers[7].id,
+    amount: 54246,
+    status: 'pending',
+    date: '2023-07-16',
+  },
+]
+
 module.exports = {
   users,
   customers,
   invoices,
   revenue,
+  reservations,
 };

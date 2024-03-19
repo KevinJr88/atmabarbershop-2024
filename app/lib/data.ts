@@ -3,8 +3,11 @@ import {
   CustomerField,
   CustomersTableType,
   InvoiceForm,
+  ReservationForm,
   InvoicesTable,
+  ReservationsTable,
   LatestInvoiceRaw,
+  LatestReservationRaw,
   User,
   Revenue,
 } from './definitions';
@@ -49,6 +52,26 @@ export async function fetchLatestInvoices() {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch the latest invoices.');
+  }
+}
+
+export async function fetchLatestReservations() {
+  try {
+    const data = await sql<LatestReservationRaw>`
+      SELECT reservations.amount, customers.name, customers.image_url, customers.email, reservations.id
+      FROM reservations
+      JOIN customers ON reservations.customer_id = customers.id
+      ORDER BY reservations.date DESC
+      LIMIT 5`;
+
+    const latestReservations = data.rows.map((reservation) => ({
+      ...reservation,
+      amount: formatCurrency(reservation.amount),
+    }));
+    return latestReservations;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch the latest reservations.');
   }
 }
 
@@ -123,6 +146,41 @@ export async function fetchFilteredInvoices(
   }
 }
 
+export async function fetchFilteredReservations(
+  query: string,
+  currentPage: number,
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const reservations = await sql<ReservationsTable>`
+      SELECT
+        reservations.id,
+        reservations.amount,
+        reservations.date,
+        reservations.status,
+        customers.name,
+        customers.email,
+        customers.image_url
+      FROM reservations
+      JOIN customers ON reservations.customer_id = customers.id
+      WHERE
+        customers.name ILIKE ${`%${query}%`} OR
+        customers.email ILIKE ${`%${query}%`} OR
+        reservations.amount::text ILIKE ${`%${query}%`} OR
+        reservations.date::text ILIKE ${`%${query}%`} OR
+        reservations.status ILIKE ${`%${query}%`}
+      ORDER BY reservations.date DESC
+      LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+    `;
+
+    return reservations.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch reservations.');
+  }
+}
+
 export async function fetchInvoicesPages(query: string) {
   try {
     const count = await sql`SELECT COUNT(*)
@@ -141,6 +199,27 @@ export async function fetchInvoicesPages(query: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch total number of invoices.');
+  }
+}
+
+export async function fetchReservationsPages(query: string) {
+  try {
+    const count = await sql`SELECT COUNT(*)
+    FROM reservations
+    JOIN customers ON reservations.customer_id = customers.id
+    WHERE
+      customers.name ILIKE ${`%${query}%`} OR
+      customers.email ILIKE ${`%${query}%`} OR
+      reservations.amount::text ILIKE ${`%${query}%`} OR
+      reservations.date::text ILIKE ${`%${query}%`} OR
+      reservations.status ILIKE ${`%${query}%`}
+  `;
+
+    const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch total number of reservations.');
   }
 }
 
@@ -166,6 +245,31 @@ export async function fetchInvoiceById(id: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch invoice.');
+  }
+}
+
+export async function fetchReservationById(id: string) {
+  try {
+    const data = await sql<ReservationForm>`
+      SELECT
+        reservations.id,
+        reservations.customer_id,
+        reservations.amount,
+        reservations.status
+      FROM reservations
+      WHERE reservations.id = ${id};
+    `;
+
+    const reservation = data.rows.map((reservation) => ({
+      ...reservation,
+      // Convert amount from cents to dollars
+      amount: reservation.amount / 100,
+    }));
+
+    return reservation[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch reservation.');
   }
 }
 

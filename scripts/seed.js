@@ -1,6 +1,7 @@
 const { db } = require('@vercel/postgres');
 const {
   invoices,
+  reservations,
   customers,
   revenue,
   users,
@@ -86,6 +87,46 @@ async function seedInvoices(client) {
   }
 }
 
+async function seedReservations(client) {
+  try {
+    await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+
+    // Create the "invoices" table if it doesn't exist
+    const createTable = await client.sql`
+    CREATE TABLE IF NOT EXISTS reservations (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    customer_id UUID NOT NULL,
+    amount INT NOT NULL,
+    status VARCHAR(255) NOT NULL,
+    date DATE NOT NULL
+  );
+`;
+
+    console.log(`Created "reservations" table`);
+
+    // Insert data into the "reservations" table
+    const insertedReservations = await Promise.all(
+      reservations.map(
+        (reservation) => client.sql`
+        INSERT INTO reservations (customer_id, amount, status, date)
+        VALUES (${reservation.customer_id}, ${reservation.amount}, ${reservation.status}, ${reservation.date})
+        ON CONFLICT (id) DO NOTHING;
+      `,
+      ),
+    );
+
+    console.log(`Seeded ${insertedReservations.length} reservations`);
+
+    return {
+      createTable,
+      reservations: insertedReservations,
+    };
+  } catch (error) {
+    console.error('Error seeding reservations:', error);
+    throw error;
+  }
+}
+
 async function seedCustomers(client) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
@@ -166,6 +207,7 @@ async function main() {
   await seedUsers(client);
   await seedCustomers(client);
   await seedInvoices(client);
+  await seedReservations(client);
   await seedRevenue(client);
 
   await client.end();
