@@ -2,10 +2,10 @@ import Image from 'next/image';
 import {
   UpdateReservation,
   DeleteReservation,
-} from '@/app/dashboard/reservations/buttons';
-import ReservationStatus from '@/app/dashboard/reservations/status';
+} from '@/app/ui/reservations/buttons';
+import ReservationStatus from '@/app/ui/reservations/status';
 import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
-import { fetchFilteredInvoices } from '@/app/lib/data';
+import { fetchFilteredReservations } from '@/app/lib/data';
 
 export default async function ReservationsTable({
   query,
@@ -14,7 +14,7 @@ export default async function ReservationsTable({
   query: string;
   currentPage: number;
 }) {
-  const reservations = await fetchFilteredInvoices(query, currentPage);
+  const reservations = await fetchFilteredReservations(query, currentPage);
 
   return (
     <div className="mt-6 flow-root">

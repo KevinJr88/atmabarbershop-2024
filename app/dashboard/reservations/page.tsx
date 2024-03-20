@@ -1,7 +1,7 @@
 import Pagination from '@/app/ui/invoices/pagination';
 import Search from '@/app/ui/search';
-import Table from '@/app/ui/invoices/table';
-import { CreateReservation } from '@/app/dashboard/reservations/buttons';
+import Table from '@/app/ui/reservations/table';
+import { CreateReservation } from '@/app/ui/reservations/buttons';
 import { kanit } from '@/app/ui/fonts';
 import { ReservationsTableSkeleton } from '@/app/ui/skeletons';
 import { Suspense } from 'react';
