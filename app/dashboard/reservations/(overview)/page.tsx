@@ -3,7 +3,7 @@ import Search from '@/app/ui/search';
 import Table from '@/app/ui/reservations/table';
 import { CreateReservation } from '@/app/ui/reservations/buttons';
 import { kanit } from '@/app/ui/fonts';
-import { ReservationsTableSkeleton } from '@/app/ui/skeletons';
+import { CreateReservationSkeleton, ReservationsTableSkeleton, SearchReservationSkeleton } from '@/app/ui/skeletons';
 import { Suspense } from 'react';
 import { fetchReservationsPages } from '@/app/lib/data';
 import { Metadata } from 'next';
@@ -29,10 +29,15 @@ export default async function Page({
       <div className="flex w-full items-center justify-between">
         <h1 className={`${kanit.className} text-2xl`}>Reservations</h1>
       </div>
-      <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-        <Search placeholder="Search reservations..." />
-        <CreateReservation />
+       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
+        <Suspense fallback={<SearchReservationSkeleton />}>
+          <Search placeholder="Search reservations..." />
+        </Suspense>
+        <Suspense fallback={<CreateReservationSkeleton />}>
+           <CreateReservation />
+        </Suspense>
       </div>
+      
       <Suspense
         key={query + currentPage}
         fallback={<ReservationsTableSkeleton />}

@@ -73,6 +73,38 @@ export function ReservationSkeleton() {
     </div>
   );
 }
+export function CreateReservationSkeleton() {
+  return (
+    <div className="relative flex flex-1 flex-shrink-0">
+      <div className="peer block w-[200px] h-[30px] rounded-sm  bg-gray-200 py-[9px] pl-10  outline-2">
+      </div>
+    </div>
+  );
+}
+
+export function PageReservationsSkeleton() {
+  return (
+    <>
+    <div className="bg-gray-200 w-[160px] h-[40px] rounded-sm "></div>
+    <div className="mt-4 flex items-center justify-between gap-2 md:mt-8"> 
+     <SearchReservationSkeleton />
+    <CreateReservationSkeleton />
+    </div>
+       <div className="mt-6 flow-root">
+        <ReservationsTableSkeleton />
+      </div>
+    </>
+  );
+}
+
+export function SearchReservationSkeleton() {
+  return (
+    <div className="relative flex flex-1 flex-shrink-0">
+      <div className="peer block w-[870px] h-[30px] rounded-sm  bg-gray-100 py-[9px] pl-10  outline-2">
+      </div>
+    </div>
+  );
+}
 
 export function LatestInvoicesSkeleton() {
   return (
