@@ -1,4 +1,4 @@
-import Pagination from '@/app/ui/invoices/pagination';
+import Pagination from '@/app/ui/reservations/pagination';
 import Search from '@/app/ui/search';
 import Table from '@/app/ui/reservations/table';
 import { CreateReservation } from '@/app/ui/reservations/buttons';
