@@ -75,6 +75,8 @@ async function seedInvoices(client) {
       ),
     );
 
+  
+
     console.log(`Seeded ${insertedInvoices.length} invoices`);
 
     return {

@@ -29,13 +29,10 @@ export default async function Page({
       <div className="flex w-full items-center justify-between">
         <h1 className={`${kanit.className} text-2xl`}>Reservations</h1>
       </div>
-       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-        <Suspense fallback={<SearchReservationSkeleton />}>
+      <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
+        
           <Search placeholder="Search reservations..." />
-        </Suspense>
-        <Suspense fallback={<CreateReservationSkeleton />}>
-           <CreateReservation />
-        </Suspense>
+          <CreateReservation />
       </div>
       
       <Suspense

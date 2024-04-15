@@ -73,6 +73,8 @@ export function ReservationSkeleton() {
     </div>
   );
 }
+
+
 export function CreateReservationSkeleton() {
   return (
     <div className="relative flex flex-1 flex-shrink-0">
@@ -87,8 +89,8 @@ export function PageReservationsSkeleton() {
     <>
     <div className="bg-gray-200 w-[160px] h-[40px] rounded-sm "></div>
     <div className="mt-4 flex items-center justify-between gap-2 md:mt-8"> 
-     <SearchReservationSkeleton />
-    <CreateReservationSkeleton />
+      <SearchReservationSkeleton />
+      <CreateReservationSkeleton />
     </div>
        <div className="mt-6 flow-root">
         <ReservationsTableSkeleton />
