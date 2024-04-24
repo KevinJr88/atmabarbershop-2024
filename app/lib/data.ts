@@ -10,9 +10,11 @@ import {
   LatestReservationRaw,
   User,
   Revenue,
+  CustomerForm,
 } from './definitions';
 import { formatCurrency } from './utils';
 import { unstable_noStore as noStore } from 'next/cache';
+import { custom } from 'zod';
 export async function fetchRevenue() {
   // Add noStore() here to prevent the response from being cached.
   // This is equivalent to in fetch(..., {cache: 'no-store'}).
@@ -38,7 +40,7 @@ export async function fetchRevenue() {
 }
 
 export async function fetchLatestInvoices() {
-    noStore();
+  noStore();
   try {
     const data = await sql<LatestInvoiceRaw>`
       SELECT invoices.amount, customers.name, customers.image_url, customers.email, invoices.id
@@ -59,9 +61,9 @@ export async function fetchLatestInvoices() {
 }
 
 export async function fetchLatestReservations() {
-    noStore();
+  noStore();
   try {
-    
+
     const data = await sql<LatestReservationRaw >`
     
       SELECT reservations.amount, customers.name, customers.image_url, customers.email, reservations.id
@@ -82,7 +84,7 @@ export async function fetchLatestReservations() {
 }
 
 export async function fetchCardData() {
-    noStore();
+  noStore();
   try {
     // You can probably combine these into a single SQL query
     // However, we are intentionally splitting them to demonstrate
@@ -122,7 +124,7 @@ export async function fetchFilteredInvoices(
   query: string,
   currentPage: number,
 ) {
-    noStore();
+  noStore();
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
@@ -158,7 +160,7 @@ export async function fetchFilteredReservations(
   query: string,
   currentPage: number,
 ) {
-    noStore();
+  noStore();
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
@@ -192,7 +194,7 @@ export async function fetchFilteredReservations(
 
 export async function fetchInvoicesPages(query: string) {
   try {
-      noStore();
+    noStore();
     const count = await sql`SELECT COUNT(*)
     FROM invoices
     JOIN customers ON invoices.customer_id = customers.id
@@ -214,7 +216,7 @@ export async function fetchInvoicesPages(query: string) {
 
 export async function fetchReservationsPages(query: string) {
   try {
-      noStore();
+    noStore();
     const count = await sql`SELECT COUNT(*)
     FROM reservations
     JOIN customers ON reservations.customer_id = customers.id
@@ -234,9 +236,30 @@ export async function fetchReservationsPages(query: string) {
   }
 }
 
+export async function fetchCustomersPages(query: string) {
+  try {
+    noStore();
+    const count = await sql`SELECT COUNT(*)
+    FROM reservations
+    JOIN customers ON reservations.customer_id = customers.id
+    WHERE
+      customers.name ILIKE ${`%${query}%`} OR
+      customers.email ILIKE ${`%${query}%`} OR
+      reservations.amount::text ILIKE ${`%${query}%`} OR
+      reservations.date::text ILIKE ${`%${query}%`} OR
+      reservations.status ILIKE ${`%${query}%`}
+  `;
+
+    const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch total number of reservations.');
+  }
+}
 export async function fetchInvoiceById(id: string) {
   try {
-      noStore();
+    noStore();
     const data = await sql<InvoiceForm>`
       SELECT
         invoices.id,
@@ -262,7 +285,7 @@ export async function fetchInvoiceById(id: string) {
 
 export async function fetchReservationById(id: string) {
   try {
-      noStore();
+    noStore();
     const data = await sql<ReservationForm>`
       SELECT
         reservations.id,
@@ -288,7 +311,7 @@ export async function fetchReservationById(id: string) {
 
 export async function fetchCustomers() {
   try {
-      noStore();
+    noStore();
     const data = await sql<CustomerField>`
       SELECT
         id,
@@ -305,9 +328,12 @@ export async function fetchCustomers() {
   }
 }
 
-export async function fetchFilteredCustomers(query: string) {
+
+
+export async function fetchFilteredCustomers(query: string, currentPage: number,) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+  noStore();
   try {
-      noStore();
     const data = await sql<CustomersTableType>`
 		SELECT
 		  customers.id,
@@ -341,11 +367,36 @@ export async function fetchFilteredCustomers(query: string) {
 
 export async function getUser(email: string) {
   try {
-      noStore();
+    noStore();
     const user = await sql`SELECT * FROM users WHERE email=${email}`;
     return user.rows[0] as User;
   } catch (error) {
     console.error('Failed to fetch user:', error);
     throw new Error('Failed to fetch user.');
+  }
+}
+
+export async function fetchCustomerById(id: string) {
+  try {
+    noStore();
+    const data = await sql<CustomerForm>`
+      SELECT
+        customers.id,
+        customers.name,
+        customers.email,
+        customers.image_url
+      FROM customers
+      WHERE customers.id = ${id};
+    `;
+
+    const customers = data.rows.map((customer) => ({
+      ...customer,
+      // Convert amount from cents to dollars
+    }));
+
+    return customers[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch customer.');
   }
 }

@@ -126,3 +126,10 @@ export type ReservationForm = {
   amount: number;
   status: 'pending' | 'paid';
 };
+
+export type CustomerForm = {
+  id: string;
+  name : string;
+  email: string;
+  image_url: string;
+};
