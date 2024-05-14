@@ -187,6 +187,12 @@ const reservations = [
     status: 'pending',
     date: '2023-07-16',
   },
+  {
+    customer_id: customers[3].id,
+    amount: 54246,
+    status: 'pending',
+    date: '2023-07-16',
+  },
 ]
 
 module.exports = {

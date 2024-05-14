@@ -26,6 +26,26 @@ export type Invoice = {
   status: 'pending' | 'paid';
 };
 
+
+//CONTOH ASISTENSI
+export type ReservationsTable = {
+  id: string;
+  customer_id: string;
+  name: string;
+  email: string;
+  image_url: string;
+  date: string;
+  amount: number;
+  status: 'pending' | 'paid';
+};
+
+export type ReservationForm = {
+  id: string;
+  customer_id: string;
+  amount: number;
+  status: 'pending' | 'paid';
+}; 
+
 export type Reservation = {
   id: string;
   customer_id: string;
@@ -35,6 +55,8 @@ export type Reservation = {
   // It means that the "status" property can only be one of the two strings: 'pending' or 'paid'.
   status: 'pending' | 'paid';
 };
+
+//END POIN
 
 export type Revenue = {
   month: string;
@@ -77,16 +99,7 @@ export type InvoicesTable = {
   status: 'pending' | 'paid';
 };
 
-export type ReservationsTable = {
-  id: string;
-  customer_id: string;
-  name: string;
-  email: string;
-  image_url: string;
-  date: string;
-  amount: number;
-  status: 'pending' | 'paid';
-};
+
 
 export type CustomersTableType = {
   id: string;
@@ -120,12 +133,7 @@ export type InvoiceForm = {
   status: 'pending' | 'paid';
 };
 
-export type ReservationForm = {
-  id: string;
-  customer_id: string;
-  amount: number;
-  status: 'pending' | 'paid';
-};
+
 
 export type CustomerForm = {
   id: string;
@@ -133,3 +141,4 @@ export type CustomerForm = {
   email: string;
   image_url: string;
 };
+

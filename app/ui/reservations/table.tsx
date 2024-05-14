@@ -15,6 +15,7 @@ export default async function ReservationsTable({
   currentPage: number;
 }) {
   const reservations = await fetchFilteredReservations(query, currentPage);
+  console.log(reservations);
 
   return (
     <div className="mt-6 flow-root">
@@ -57,6 +58,13 @@ export default async function ReservationsTable({
               </div>
             ))}
           </div>
+          
+          
+          
+          
+          
+          
+          
           <table className="hidden min-w-full text-gray-900 md:table">
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>

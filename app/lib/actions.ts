@@ -8,8 +8,8 @@ import axios from "axios";
 
 const FormSchema = z.object({
   id: z.string(),
-  customerId: z.string(),
-  amount: z.coerce.number(),
+  customerId: z.string().min(1),
+  amount: z.coerce.number().min(0).nonnegative(),
   status: z.enum(['pending', 'paid']),
   date: z.string(),
 });
@@ -21,19 +21,20 @@ const FormSchema2 = z.object({
   image_url: z.string(),
 });
 
-const CreateReservation = FormSchema.omit({ id: true, date: true });
-const UpdateReservation = FormSchema.omit({ id: true, date: true });
+
+
+
 const CreateCustomer = FormSchema2.omit({ id: true })
 const UpdateCustomer = FormSchema2.omit({ id: true })
 
 export async function createCustomer(formData: FormData) {
-  
-  const img = formData.get('image') ;
+
+  const img = formData.get('image');
   console.log(img);
 
   let fileName = '';
   if (img instanceof File) {
-    fileName =  '/customers/'+ img.name; 
+    fileName = '/customers/' + img.name;
     console.log(fileName);
   };
 
@@ -54,38 +55,16 @@ export async function createCustomer(formData: FormData) {
   //console.log(rawFormData);
 }
 
-export async function updateCustomer(id: string, formData: FormData) {
-  const img = formData.get('image') ;
-  console.log(img);
-
-  let fileName = '';
-  if (img instanceof File) {
-    fileName =  '/customers/'+ img.name; 
-    console.log(fileName);
-  };
-  
-  const { name, email, image_url } = UpdateCustomer.parse({
-    name: formData.get('name'),
-    email: formData.get('email'),
-    image_url: fileName,
-  });
-  
-  await sql`
-    UPDATE customers
-    SET name = ${name}, email = ${email}, image_url = ${image_url}
-    WHERE id = ${id}
-  `;
-
-  revalidatePath('/dashboard/customers');
-  redirect('/dashboard/customers');
-}
+const CreateReservation = FormSchema.omit({ id: true, date: true });
+const UpdateReservation = FormSchema.omit({ id: true, date: true });
 
 
 
+//CONTOH ASISTENSI
 
 export async function createReservation(formData: FormData) {
   const { customerId, amount, status } = CreateReservation.parse({
-    customerId: formData.get('customerId'),
+    customerId: formData.get('id_customer'),
     amount: formData.get('amount'),
     status: formData.get('status'),
   });
@@ -128,6 +107,67 @@ export async function deleteReservation(id: string) {
   await sql`DELETE FROM reservations WHERE id = ${id}`;
   revalidatePath('/dashboard/reservations');
 }
+
+//END POIN
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export async function updateCustomer(id: string, formData: FormData) {
+  const img = formData.get('image');
+  console.log(img);
+
+  let fileName = '';
+  if (img instanceof File) {
+    fileName = '/customers/' + img.name;
+    console.log(fileName);
+  };
+
+  const { name, email, image_url } = UpdateCustomer.parse({
+    name: formData.get('name'),
+    email: formData.get('email'),
+    image_url: fileName,
+  });
+
+  await sql`
+    UPDATE customers
+    SET name = ${name}, email = ${email}, image_url = ${image_url}
+    WHERE id = ${id}
+  `;
+
+  revalidatePath('/dashboard/customers');
+  redirect('/dashboard/customers');
+}
+
+
+
+
 
 
 export async function deleteCustomer(id: string) {

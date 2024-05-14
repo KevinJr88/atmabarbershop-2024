@@ -8,6 +8,8 @@ export default async function Page({ params }: { params: { id: string } }) {
     fetchReservationById(id),
     fetchCustomers(),
   ]);
+
+  
   return (
     <main>
       <Breadcrumbs
