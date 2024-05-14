@@ -13,6 +13,8 @@ export const metadata: Metadata = {
     //lenfwefwsfekfsfnkeslenfnfelfesfek
 };
 
+//INI PERUBAHAN
+
 export default async function Page({
     searchParams,
 }: {
