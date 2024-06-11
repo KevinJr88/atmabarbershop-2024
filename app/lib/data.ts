@@ -88,7 +88,7 @@ export async function fetchLatestReservations() {
 export async function fetchCardData() {
   noStore();
   try {
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+    await new Promise((resolve) => setTimeout(resolve, 8000));
     
     // You can probably combine these into a single SQL query
     // However, we are intentionally splitting them to demonstrate
