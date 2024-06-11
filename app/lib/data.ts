@@ -20,6 +20,7 @@ export async function fetchRevenue() {
   // This is equivalent to in fetch(..., {cache: 'no-store'}).
   noStore();
   try {
+    await new Promise((resolve) => setTimeout(resolve, 5000));
     // Artificially delay a response for demo purposes.
     // Don't do this in production :)
     console.log('Fetching revenue data...');
@@ -42,6 +43,7 @@ export async function fetchRevenue() {
 export async function fetchLatestInvoices() {
   noStore();
   try {
+    await new Promise((resolve) => setTimeout(resolve, 5000));
     const data = await sql<LatestInvoiceRaw>`
       SELECT invoices.amount, customers.name, customers.image_url, customers.email, invoices.id
       FROM invoices
@@ -63,7 +65,7 @@ export async function fetchLatestInvoices() {
 export async function fetchLatestReservations() {
   noStore();
   try {
-
+    await new Promise((resolve) => setTimeout(resolve, 5000));
     const data = await sql<LatestReservationRaw >`
     
       SELECT reservations.amount, customers.name, customers.image_url, customers.email, reservations.id
@@ -86,6 +88,8 @@ export async function fetchLatestReservations() {
 export async function fetchCardData() {
   noStore();
   try {
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+    
     // You can probably combine these into a single SQL query
     // However, we are intentionally splitting them to demonstrate
     // how to initialize multiple queries in parallel with JS.
@@ -130,6 +134,7 @@ export async function fetchFilteredInvoices(
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
+    await new Promise((resolve) => setTimeout(resolve, 5000));
     const invoices = await sql<InvoicesTable>`
       SELECT
         invoices.id,
@@ -161,6 +166,7 @@ export async function fetchFilteredInvoices(
 
 export async function fetchInvoicesPages(query: string) {
   try {
+    await new Promise((resolve) => setTimeout(resolve, 5000));
     noStore();
     const count = await sql`SELECT COUNT(*)
     FROM invoices
@@ -183,6 +189,7 @@ export async function fetchInvoicesPages(query: string) {
 
 export async function fetchInvoiceById(id: string) {
   try {
+    await new Promise((resolve) => setTimeout(resolve, 5000));
     noStore();
     const data = await sql<InvoiceForm>`
       SELECT
@@ -214,6 +221,7 @@ export async function fetchFilteredReservations(
   query: string,
   currentPage: number,
 ) {
+  await new Promise((resolve) => setTimeout(resolve, 5000));
   noStore();
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
@@ -253,6 +261,7 @@ const ITEMS_PER_PAGE = 6;
 //BUAT PAGINATION (OPSIONAL), Tidak butuh definition karena tipe balikannya bukan kumpulan data
 export async function fetchReservationsPages(query: string) {
   try {
+    await new Promise((resolve) => setTimeout(resolve, 5000));
     noStore();
     const count = await sql`SELECT COUNT(*)
     FROM reservations
@@ -275,6 +284,7 @@ export async function fetchReservationsPages(query: string) {
 
 export async function fetchReservationById(id: string) {
   try {
+    await new Promise((resolve) => setTimeout(resolve, 5000));
     noStore();
     const data = await sql<ReservationForm>`
       SELECT
@@ -325,6 +335,7 @@ export async function fetchReservationById(id: string) {
 
 export async function getUser(email: string) {
   try {
+    await new Promise((resolve) => setTimeout(resolve, 5000));
     noStore();
     const user = await sql`SELECT * FROM users WHERE email=${email}`;
     return user.rows[0] as User;
@@ -336,6 +347,7 @@ export async function getUser(email: string) {
 
 export async function fetchCustomerById(id: string) {
   try {
+    await new Promise((resolve) => setTimeout(resolve, 5000));
     noStore();
     const data = await sql<CustomerForm>`
       SELECT
@@ -361,6 +373,7 @@ export async function fetchCustomerById(id: string) {
 
 export async function fetchCustomersPages(query: string) {
   try {
+    await new Promise((resolve) => setTimeout(resolve, 5000));
     noStore();
     const count = await sql`SELECT COUNT(*)
     FROM reservations
@@ -385,6 +398,7 @@ export async function fetchFilteredCustomers(query: string, currentPage: number,
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   noStore();
   try {
+    await new Promise((resolve) => setTimeout(resolve, 5000));
     const data = await sql<CustomersTableType>`
 		SELECT
 		  customers.id,
@@ -418,7 +432,8 @@ export async function fetchFilteredCustomers(query: string, currentPage: number,
 
 export async function fetchCustomers() {
   try {
-    noStore();
+    await new Promise((resolve) => setTimeout(resolve, 8000));
+    
     const data = await sql<CustomerField>`
       SELECT
         id,
