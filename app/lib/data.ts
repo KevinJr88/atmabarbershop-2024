@@ -191,7 +191,7 @@ export async function fetchAllReservationIds() {
   try {
     await new Promise((resolve) => setTimeout(resolve, 5000));
     noStore();
-    const data = await sql<{ id: string }>`SELECT id FROM reservations ORDER BY date DESC`;
+    const data = await sql`SELECT id FROM reservations ORDER BY date DESC`;
 
     return data.rows.map((row) => row.id);
   } catch (error) {
@@ -204,7 +204,7 @@ export async function fetchAllCustomerIds() {
   try {
     await new Promise((resolve) => setTimeout(resolve, 5000));
     noStore();
-    const data = await sql<{ id: string }>`SELECT id FROM customers ORDER BY name ASC`;
+    const data = await sql`SELECT id FROM customers ORDER BY name ASC`;
 
     return data.rows.map((row) => row.id);
   } catch (error) {
