@@ -1,6 +1,11 @@
 import Form from '@/app/ui/customers/edit-form';
 import Breadcrumbs from '@/app/ui/reservations/breadcrumbs';
-import { fetchCustomerById } from '@/app/lib/data';
+import { fetchCustomerById, fetchAllCustomerIds } from '@/app/lib/data';
+
+export async function generateStaticParams() {
+    const reservationIds = await fetchAllCustomerIds();
+    return reservationIds.map((id: string) => ({ params: { id } }));
+}
 
 export default async function Page({ params }: { params: { id: string } }) {
     const id = params.id;

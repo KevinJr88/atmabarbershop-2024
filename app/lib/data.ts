@@ -187,6 +187,32 @@ export async function fetchInvoicesPages(query: string) {
   }
 }
 
+export async function fetchAllReservationIds() {
+  try {
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+    noStore();
+    const data = await sql<{ id: string }>`SELECT id FROM reservations ORDER BY date DESC`;
+
+    return data.rows.map((row) => row.id);
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch reservation IDs.');
+  }
+}
+
+export async function fetchAllCustomerIds() {
+  try {
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+    noStore();
+    const data = await sql<{ id: string }>`SELECT id FROM customers ORDER BY name ASC`;
+
+    return data.rows.map((row) => row.id);
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch customer IDs.');
+  }
+}
+
 export async function fetchInvoiceById(id: string) {
   try {
     await new Promise((resolve) => setTimeout(resolve, 5000));
